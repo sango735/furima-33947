@@ -136,7 +136,7 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.messages).to include(first_name_kana: ['is invalid'])
       end
-      it 'last_name_kanaが漢字だと登録できない' do
+      it 'last_name_kanaがひらがなだと登録できない' do
         @user.last_name_kana = 'ああああ'
         @user.valid?
         expect(@user.errors.messages).to include(last_name_kana: ['is invalid'])
