@@ -111,7 +111,7 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.messages).to include(last_name: ['is invalid'])
       end
-      it 'first_name_kanaが全角でなければ登録できない' do
+      it 'first_name_kanaが半角だと登録できない' do
         @user.first_name_kana = 'aaaa'
         @user.valid?
         expect(@user.errors.messages).to include(first_name_kana: ['is invalid'])
@@ -121,6 +121,27 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.messages).to include(last_name_kana: ['is invalid'])
       end
+      it 'first_name_kanaが漢字だと登録できない' do
+        @user.first_name_kana = '試験'
+        @user.valid?
+        expect(@user.errors.messages).to include(first_name_kana: ['is invalid'])
+      end
+      it 'last_name_kanaが漢字だと登録できない' do
+        @user.last_name_kana = '試験'
+        @user.valid?
+        expect(@user.errors.messages).to include(last_name_kana: ['is invalid'])
+      end
+      it 'first_name_kanaがひらがなだと登録できない' do
+        @user.first_name_kana = 'ああああ'
+        @user.valid?
+        expect(@user.errors.messages).to include(first_name_kana: ['is invalid'])
+      end
+      it 'last_name_kanaが漢字だと登録できない' do
+        @user.last_name_kana = 'ああああ'
+        @user.valid?
+        expect(@user.errors.messages).to include(last_name_kana: ['is invalid'])
+      end
+
     end
   end
 end
