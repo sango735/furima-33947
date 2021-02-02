@@ -57,12 +57,37 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
-      it 'priceの値が全角では登録できない' do
+      it 'category_idが1の時は登録できない' do
+        @item.category_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category Select")
+      end
+      it 'state_idが1の時は登録できない' do
+        @item.state_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("State Select")
+      end
+      it 'days_idが1の時は登録できない' do
+        @item.days_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Days Select")
+      end
+      it 'area_idが1の時は登録できない' do
+        @item.area_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Area Select")
+      end
+      it 'burden_idが1の時は登録できない' do
+        @item.burden_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Burden Select")
+      end
+      it 'priceの値が全角を含む場合は登録できない' do
         @item.price = "５０００"
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is invalid")
       end
-      it 'priceの値が半角英字では登録できない' do
+      it 'priceの値が半角英字を含む場合は登録できない' do
         @item.price = "test"
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is invalid")
