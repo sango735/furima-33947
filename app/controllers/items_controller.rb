@@ -45,13 +45,12 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:image, :name, :explanation, :category_id, :burden_id, :state_id, :area_id, :days_id,
                                  :price).merge(user_id: current_user.id)
   end
+
   def item_find_id
     @item = Item.find(params[:id])
   end
-  def redirect_index
-      unless current_user.id == @item.user_id
-        redirect_to root_path
-      end
-  end
 
+  def redirect_index
+    redirect_to root_path unless current_user.id == @item.user_id
+  end
 end
