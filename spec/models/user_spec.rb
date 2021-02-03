@@ -70,7 +70,7 @@ RSpec.describe User, type: :model do
         expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
       it 'emailに＠マークが含まれない場合は登録できない' do
-        @user.email = "test"
+        @user.email = 'test'
         @user.valid?
         expect(@user.errors.messages).to include(email: ['is invalid'])
       end
@@ -141,7 +141,6 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.messages).to include(last_name_kana: ['is invalid'])
       end
-
     end
   end
 end
