@@ -1,10 +1,12 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :item_find_id, only: [:show, :edit, :update, :redirect_index, :destroy]
+  before_action :item_find_id, only: [:show, :edit, :update, :redirect_index, :destroy, :sold_out_index]
   before_action :redirect_index, only: [:edit, :update, :destroy]
+  before_action :sold_out_index, only: [:edit, :update, :destroy]
 
   def index
     @item = Item.includes(:user).order(id: 'DESC')
+    @order = Order.includes(:item)
   end
 
   def new
@@ -21,6 +23,7 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @order = @item.order
   end
 
   def edit
@@ -55,5 +58,13 @@ class ItemsController < ApplicationController
 
   def redirect_index
     redirect_to root_path unless current_user.id == @item.user_id
+  end
+  def sold_out_index
+    @order = @item.order
+    if !@order.nil? 
+      if @item.id == @order.item_id
+        redirect_to root_path
+      end
+    end
   end
 end
