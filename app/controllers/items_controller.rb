@@ -6,7 +6,6 @@ class ItemsController < ApplicationController
 
   def index
     @item = Item.includes(:user).order(id: 'DESC')
-    @order = Order.includes(:item)
   end
 
   def new

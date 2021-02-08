@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
   end
 
   def sold_out_redirect
+    @order = @item.order
     redirect_to root_path if !@order.nil?
   end
 
