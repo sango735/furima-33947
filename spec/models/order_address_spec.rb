@@ -10,7 +10,7 @@ RSpec.describe OrderAddress, type: :model do
       it 'tokenとpostal_codeとarea_idとmunicipalityとtownとphone_numberが存在していれば登録できる' do
         expect(@order_address).to be_valid
       end
-    end  
+    end
     context '商品の購入ができないとき' do
       it 'tokenが空では登録できない' do
         @order_address.token = nil
@@ -25,7 +25,7 @@ RSpec.describe OrderAddress, type: :model do
       it 'area_idが空では登録できない' do
         @order_address.area_id = nil
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Area Select")
+        expect(@order_address.errors.full_messages).to include('Area Select')
       end
       it 'municipalityが空では登録できない' do
         @order_address.municipality = nil
@@ -43,29 +43,29 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Phone number can't be blank")
       end
       it 'postal_codeが数字3桁-数字4桁以外では登録できない' do
-        @order_address.postal_code = "test"
+        @order_address.postal_code = 'test'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Postal code is invalid")
+        expect(@order_address.errors.full_messages).to include('Postal code is invalid')
       end
       it 'phone_numberが漢字では登録できない' do
-        @order_address.phone_number = "電話番号"
+        @order_address.phone_number = '電話番号'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is not a number")
+        expect(@order_address.errors.full_messages).to include('Phone number is not a number')
       end
       it 'phone_numberがひらがなでは登録できない' do
-        @order_address.phone_number = "てすと"
+        @order_address.phone_number = 'てすと'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is not a number")
+        expect(@order_address.errors.full_messages).to include('Phone number is not a number')
       end
       it 'phone_numberがカタカナでは登録できない' do
-        @order_address.phone_number = "テスト"
+        @order_address.phone_number = 'テスト'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is not a number")
+        expect(@order_address.errors.full_messages).to include('Phone number is not a number')
       end
       it 'phone_numberが全角数字では登録できない' do
-        @order_address.phone_number = "０９０１２３４５６７８"
+        @order_address.phone_number = '０９０１２３４５６７８'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is not a number")
+        expect(@order_address.errors.full_messages).to include('Phone number is not a number')
       end
     end
   end

@@ -38,8 +38,8 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    if  @item.destroy
-     redirect_to root_path
+    if @item.destroy
+      redirect_to root_path
     else
       render :show
     end
@@ -59,12 +59,9 @@ class ItemsController < ApplicationController
   def redirect_index
     redirect_to root_path unless current_user.id == @item.user_id
   end
+
   def sold_out_index
     @order = @item.order
-    if !@order.nil? 
-      if @item.id == @order.item_id
-        redirect_to root_path
-      end
-    end
+    redirect_to root_path if !@order.nil? && (@item.id == @order.item_id)
   end
 end
