@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
-    @order_address = FactoryBot.build(:order_address)
+    user = FactoryBot.create(:user)
+    item = FactoryBot.create(:item)
+    @order_address = FactoryBot.build(:order_address, user_id: user.id, item_id: item.id)
+    sleep(1)
   end
 
   describe '商品の購入' do
@@ -10,15 +13,19 @@ RSpec.describe OrderAddress, type: :model do
       it 'tokenとpostal_codeとarea_idとmunicipalityとtownとphone_numberが存在していれば登録できる' do
         expect(@order_address).to be_valid
       end
+      it 'building_nameが空でも登録できる' do
+        @order_address.building_name = nil
+        expect(@order_address).to be_valid
+      end
     end
     context '商品の購入ができないとき' do
       it 'tokenが空では登録できない' do
-        @order_address.token = nil
+        @order_address.token = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Token can't be blank")
       end
       it 'postal_codeが空では登録できない' do
-        @order_address.postal_code = nil
+        @order_address.postal_code = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Postal code can't be blank")
       end
@@ -28,7 +35,7 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include('Area Select')
       end
       it 'municipalityが空では登録できない' do
-        @order_address.municipality = nil
+        @order_address.municipality = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Municipality can't be blank")
       end
@@ -44,6 +51,11 @@ RSpec.describe OrderAddress, type: :model do
       end
       it 'postal_codeが数字3桁-数字4桁以外では登録できない' do
         @order_address.postal_code = 'test'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Postal code is invalid')
+      end
+      it 'postal_codeにハイフンが含まれていない場合は登録できない' do
+        @order_address.postal_code = '0123456'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Postal code is invalid')
       end
@@ -67,6 +79,22 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Phone number is not a number')
       end
-    end
+      it 'phone_numberにハイフンが含まれている場合は登録できない' do
+        @order_address.phone_number = '090-1234-5678'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Phone number is not a number')
+      end
+      it 'item_idが存在しなければ登録できない' do
+        @order_address.item_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Item can't be blank")
+      end
+      it 'user_idが存在しなければ登録できない' do
+        @order_address.user_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("User can't be blank")
+      end
+
+      end
   end
 end

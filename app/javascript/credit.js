@@ -17,7 +17,6 @@ const credit = () => {
     Payjp.createToken(card, (status, response) => {
        if (status == 200){
          const token = response.id;
-         console.log(token);
          const inputToken = document.getElementById("charge-form");
          const hiddenToken = `<input value=${token} name='token' type="hidden"> `;
          inputToken.insertAdjacentHTML("beforeend", hiddenToken);

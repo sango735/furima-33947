@@ -8,7 +8,9 @@ class OrderAddress
     validates :area_id, numericality: { other_than: 1, message: 'Select' }
     validates :municipality
     validates :town
-    validates :phone_number, numericality: { only_integer: true }
+    validates :phone_number, numericality: { only_integer: true },length: {maximum: 11}
+    validates :user_id
+    validates :item_id
   end
 
   def save
