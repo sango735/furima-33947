@@ -29,7 +29,7 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Postal code can't be blank")
       end
-      it 'area_idが空では登録できない' do
+      it 'area_idが1の時は登録できない' do
         @order_address.area_id = 1
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Area Select')
@@ -84,7 +84,7 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Phone number is not a number')
       end
-      it 'phone_numberにハイフンが含まれている場合は登録できない' do
+      it 'phone_numberが12桁以上の場合は登録できない' do
         @order_address.phone_number = '0901234567890'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
