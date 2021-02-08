@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
 
   def sold_out_redirect
     @order = @item.order
-    redirect_to root_path if !@order.nil? && (@item.id != @order.item_id)
+    redirect_to root_path if !@order.nil? && (@item.id == @order.item_id)
   end
 
   def order_params
